@@ -2,7 +2,7 @@ import type { Site, Page, Links, Socials } from "@types"
 
 // Global
 export const SITE: Site = {
-  TITLE: "Byte of Prash",
+  TITLE: "byteofprash",
   DESCRIPTION: "Welcome to Byte of Prash, a personal site for thoughts on tech, sales engineering, and everything in between.",
   AUTHOR: "Prashanth",
 }
@@ -23,6 +23,12 @@ export const BLOG: Page = {
 export const PROJECTS: Page = {
   TITLE: "Projects",
   DESCRIPTION: "Recent projects I have worked on.",
+}
+
+// Photography Page
+export const PHOTOGRAPHY: Page = {
+  TITLE: "Photography",
+  DESCRIPTION: "A collection of photos I have taken.",
 }
 
 // Search Page
@@ -48,6 +54,10 @@ export const LINKS: Links = [
   {
     TEXT: "Projects",
     HREF: "/projects",
+  },
+  {
+    TEXT: "Photography",
+    HREF: "/photography",
   },
 ]
 

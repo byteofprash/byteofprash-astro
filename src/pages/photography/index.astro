@@ -1,0 +1,64 @@
+---
+import PageLayout from "@layouts/PageLayout.astro"
+import TopLayout from "@layouts/TopLayout.astro"
+import BottomLayout from "@layouts/BottomLayout.astro"
+import { PHOTOGRAPHY } from "@consts"
+
+const portraits = [
+  "/images/2024/11/DSC_1541_rickcork.jpg",
+  "/images/2024/11/DSC_1566_BW.jpg",
+  "/images/2024/11/DSC_0656.jpg",
+  "/images/2024/11/DSC_9624.JPG",
+]
+
+const iceland = [
+  "/images/2024/12/DSC_6388.JPG",
+  "/images/2024/12/DSC_6421.JPG",
+  "/images/2024/12/DSC_6507.JPG",
+  "/images/2024/12/DSC_6662.JPG",
+  "/images/2024/12/DSC_6835.JPG",
+  "/images/2024/12/DSC_7067.JPG",
+]
+
+---
+
+<PageLayout title={PHOTOGRAPHY.TITLE} description={PHOTOGRAPHY.DESCRIPTION}>
+  <TopLayout>
+    <div class="animate page-heading">
+      {PHOTOGRAPHY.TITLE}
+    </div>
+  </TopLayout>
+  <BottomLayout>
+    <div class="animate space-y-12">
+
+      <section>
+        <h2 class="text-lg font-semibold text-black dark:text-white mb-4">Portraits</h2>
+        <div class="grid grid-cols-2 gap-2">
+          {portraits.map((src) => (
+            <img
+              src={src}
+              loading="lazy"
+              class="w-full h-64 object-cover rounded"
+            />
+          ))}
+        </div>
+      </section>
+
+      <hr class="border-black/10 dark:border-white/25" />
+
+      <section>
+        <h2 class="text-lg font-semibold text-black dark:text-white mb-4">Iceland</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+          {iceland.map((src) => (
+            <img
+              src={src}
+              loading="lazy"
+              class="w-full h-48 object-cover rounded"
+            />
+          ))}
+        </div>
+      </section>
+
+    </div>
+  </BottomLayout>
+</PageLayout>

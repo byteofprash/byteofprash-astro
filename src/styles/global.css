@@ -28,8 +28,7 @@ html {
   overflow-y: scroll;
   color-scheme: light;
   background-color: white;
-  font-family: "Atkinson", sans-serif;
-
+  font-family: "Libre Baskerville", serif;
 }
 
 html.dark {
@@ -73,6 +72,15 @@ article {
 
 .page-heading {
   @apply font-semibold text-black dark:text-white;
+  font-family: "Libre Baskerville", serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Libre Baskerville", serif;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  font-family: "Libre Baskerville", serif;
 }
 
 .blend {
