@@ -1,24 +1,31 @@
 ---
 import "@styles/global.css"
 import BaseHead from "@components/BaseHead.astro"
-import Header from "@components/Header.astro"
-import Footer from "@components/Footer.astro"
-import Drawer from "@components/Drawer.astro"
-const { title, description } = Astro.props
+import SiteNav from "@components/SiteNav.astro"
+import KolamBorder from "@components/KolamBorder.astro"
+import SiteFooter from "@components/SiteFooter.astro"
 import { SITE } from "@consts"
+
+type Props = { title: string; description: string; home?: boolean; image?: string }
+const { title, description, home = false, image } = Astro.props
+const fullTitle = home ? `${SITE.TITLE}` : `${title} | ${SITE.TITLE}`
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={`${title} | ${SITE.TITLE}`} description={description} />
+    <BaseHead title={fullTitle} description={description} image={image} />
   </head>
   <body>
-    <Header />
-    <Drawer />
-    <main>
-      <slot />
-    </main>
-    <Footer />
+    <div class="page">
+      {!home && <SiteNav />}
+      <main class="flex flex-col gap-5">
+        <slot />
+      </main>
+      <div class="flex flex-col gap-5">
+        <KolamBorder />
+        <SiteFooter />
+      </div>
+    </div>
   </body>
 </html>

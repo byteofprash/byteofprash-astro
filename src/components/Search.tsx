@@ -37,8 +37,8 @@ export default function Search({ data }: Props) {
       <SearchBar onSearchInput={onSearchInput} query={query} setQuery={setQuery} placeholderText="What are you looking for?" />
 
       {(query().length >= 2 && results().length >= 1) && (
-        <div class="mt-12">
-          <div class="text-sm uppercase mb-2">
+        <div class="mt-10">
+          <div class="mono mb-3 text-[13px] text-muted">
             Found {results().length} results for {`'${query()}'`}
           </div>
           <ul class="flex flex-col gap-3">

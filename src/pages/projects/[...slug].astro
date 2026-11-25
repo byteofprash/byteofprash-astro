@@ -1,35 +1,36 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
-import TopLayout from "@layouts/TopLayout.astro"
-import BottomLayout from "@layouts/BottomLayout.astro"
-import ArticleTopLayout from "@layouts/ArticleTopLayout.astro"
-import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro"
+import Tile from "@components/Tile.astro"
 
-// Create the static projects pages
 export async function getStaticPaths() {
-	const projects = await getCollection("projects")
-	return projects.map((project) => ({
-		params: { slug: project.slug },
-		props: project,
-	}))
+  const projects = await getCollection("projects")
+  return projects.map((project) => ({ params: { slug: project.slug }, props: project }))
 }
 
-// Get the requested project
 type Props = CollectionEntry<"projects">
 const project = Astro.props
-const { title, summary } = project.data
+const { title, summary, date, category, demoUrl, repoUrl } = project.data
+const { Content } = await project.render()
+const mon = Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).format(date)
 ---
 
-<PageLayout title={title} description={summary}>
-  <TopLayout>
-    <div class="animate">
-      <ArticleTopLayout entry={project} />
-    </div>
-  </TopLayout>
-  <BottomLayout>
-    <div class="animate">
-      <ArticleBottomLayout entry={project} />
-    </div>
-  </BottomLayout>
+<PageLayout title={title} description={summary || title}>
+  <div class="grid gap-5 lg:grid-cols-3">
+    <Tile color="paper" size="lg" class="flex flex-col gap-4 lg:col-span-1">
+      <a href="/projects" class="link text-[15px]">← Select projects</a>
+      <span class="mt-4 text-sm">{category ?? "Project"} · {mon}</span>
+      <h1 class="m-0 text-[clamp(44px,7vw,72px)] leading-[1.04]">{title}</h1>
+      {summary && <p class="m-0 text-[19px]">{summary}</p>}
+      {(demoUrl || repoUrl) && (
+        <p class="m-0 flex flex-wrap gap-x-5 gap-y-2 text-[17px]">
+          {demoUrl && <a href={demoUrl} target="_blank" rel="noopener noreferrer" class="link">See demo ↗</a>}
+          {repoUrl && <a href={repoUrl} target="_blank" rel="noopener noreferrer" class="link">Repository ↗</a>}
+        </p>
+      )}
+    </Tile>
+    <Tile color="sky" size="lg" class="lg:col-span-2">
+      <article class="post"><Content /></article>
+    </Tile>
+  </div>
 </PageLayout>

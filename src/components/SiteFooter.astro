@@ -1,0 +1,18 @@
+---
+import { SOCIALS } from "@consts"
+const linkedin = SOCIALS.find((s) => s.NAME === "LinkedIn")
+const github = SOCIALS.find((s) => s.NAME === "Github")
+---
+<footer class="flex flex-wrap justify-between gap-x-6 gap-y-2.5 px-2.5 pt-3 pb-8 text-[15px]">
+  <span class="flex flex-wrap gap-x-5 gap-y-2">
+    <span>© 2026 Prash</span>
+    <a href="/search" class="link">Search</a>
+    <a href="/rss.xml" class="link">RSS</a>
+    <a href="/legal/privacy" class="link">Privacy</a>
+    <a href="/legal/terms" class="link">Terms</a>
+  </span>
+  <span class="flex gap-5">
+    {linkedin && <a href={linkedin.HREF} target="_blank" rel="noopener noreferrer" class="link">LinkedIn ↗</a>}
+    {github && <a href={github.HREF} target="_blank" rel="noopener noreferrer" class="link">GitHub ↗</a>}
+  </span>
+</footer>

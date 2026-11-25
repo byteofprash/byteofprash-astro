@@ -1,47 +1,37 @@
 ---
-import { getCollection } from "astro:content";
-import PageLayout from "@layouts/PageLayout.astro";
-import TopLayout from "@layouts/TopLayout.astro";
-import BottomLayout from "@layouts/BottomLayout.astro";
-import SearchCollection from "@components/SearchCollection";
-import { PROJECTS } from "@consts";
-import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content"
+import PageLayout from "@layouts/PageLayout.astro"
+import Tile from "@components/Tile.astro"
+import { PROJECTS } from "@consts"
 
 const projects = (await getCollection("projects"))
-  .filter((project) => !project.data.draft)
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
 
-const tags = [
-  ...new Set(projects.flatMap((project) => project.data.tags)),
-].sort((a, b) => a.localeCompare(b));
-
-const estimated_initial_size =
-  28 + projects.length * 158 + (projects.length - 1) * 12;
+const colors = ["deep", "warm", "gold", "soft", "paper"] as const
+// Column spans cycle so the grid feels mixed-size on desktop
+const spans = ["lg:col-span-2", "lg:col-span-1", "lg:col-span-1", "lg:col-span-2", "lg:col-span-3"]
+const mon = (d: Date) => Intl.DateTimeFormat("en-US", { month: "short", year: "numeric" }).format(d)
 ---
 
 <PageLayout title={PROJECTS.TITLE} description={PROJECTS.DESCRIPTION}>
-  <TopLayout>
-    <div class="animate">
-      <h1 class="text-3xl font-semibold text-black dark:text-white mt-2">
-        {PROJECTS.TITLE}
-      </h1>
-      <div class="mt-1">
-        {PROJECTS.DESCRIPTION}
-      </div>
-    </div>
-  </TopLayout>
-  <BottomLayout>
-    <div
-      id="search-collection-wrapper"
-      class="animate"
-      style={{ minHeight: `${estimated_initial_size}px` }}
-    >
-      <SearchCollection
-        client:load
-        entry_name={"projects"}
-        tags={tags}
-        data={projects}
-      />
-    </div>
-  </BottomLayout>
+  <Tile color="paper" size="lg">
+    <h1 class="m-0 text-[clamp(44px,8vw,72px)] leading-[1.04]">Select projects</h1>
+    <p class="mt-3 text-[19px]">A few things I built, at work and on weekends.</p>
+  </Tile>
+  <div class="grid gap-5 lg:grid-cols-3">
+    {projects.map((p, i) => (
+      <Tile
+        color={colors[i % colors.length]}
+        size="lg"
+        href={`/projects/${p.slug}`}
+        class={`flex min-h-[320px] flex-col gap-4 lg:min-h-[420px] ${spans[i % spans.length]}`}
+      >
+        <span class="text-sm">{p.data.category ?? "Project"} · {mon(p.data.date)}</span>
+        <span class="display text-[clamp(32px,4vw,52px)] font-semibold leading-[1.05]">{p.data.title}</span>
+        {p.data.summary && <span class="max-w-[520px] text-[17px]">{p.data.summary}</span>}
+        <span class="mt-auto text-[17px]">View →</span>
+      </Tile>
+    ))}
+  </div>
 </PageLayout>

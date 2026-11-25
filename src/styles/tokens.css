@@ -1,0 +1,64 @@
+/* byteofprash.com design tokens — "Kolam Maroon" (locked palette)
+   Drop into src/styles/tokens.css and import once in the base layout. */
+
+:root {
+  /* Color */
+  --bg: #F4EADF;      /* page ground */
+  --paper: #FFF8EF;   /* light tiles, text on dark tiles */
+  --ink: #2B1616;     /* body text */
+  --muted: #5E4040;   /* secondary text */
+  --soft: #EBD3BC;    /* story tile, cream accent */
+  --gold: #D9A441;    /* projects tiles, sun */
+  --deep: #6B2427;    /* maroon: contact tile, kolam, links */
+  --warm: #A8442F;    /* brick: writing tile */
+  --sky: #F1DCC4;    /* illustration / image tile ground */
+  --photo: #8A3B38;   /* image-tile fallback ground */
+  --olive: #5F6B3A;   /* illustration-only accent, never UI */
+
+  /* Type */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Shape + space */
+  --radius: 10px;
+  --gap: 20px;
+  --page-pad: 12px;
+  --page-max: 1280px;
+  --tile-pad: 28px;           /* default; large tiles use 36px 40px */
+  --row-1: 300px;             /* bento rows, desktop */
+  --row-2: 400px;
+  --row-3: 400px;
+  --bp-stack: 900px;          /* below this, bento is one column */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.55;
+}
+a { color: inherit; text-decoration: none; }
+.link { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+
+.tile { border-radius: var(--radius); box-sizing: border-box; transition: transform .18s ease; }
+a.tile:hover { transform: translateY(-3px); }
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: var(--row-1) var(--row-2) var(--row-3);
+  gap: var(--gap);
+}
+@media (max-width: 900px) {
+  .bento { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; }
+  .bento > * { grid-column: 1 / -1 !important; grid-row: auto !important; min-height: 260px; }
+}
+
+/* Kolam border: kolam.webp tiled in a 21px strip (cropped to the motif, 0.75x, tight spacing). Transparent maroon motif. */
+.kolam-border {
+  height: 21px;
+  background: url('/assets/kolam-strip.webp') repeat-x left center / 21px 21px;
+}

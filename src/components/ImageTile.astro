@@ -1,0 +1,15 @@
+---
+import { cn } from "@lib/utils"
+type Props = {
+  src: string
+  alt: string
+  position?: string
+  color?: "sky" | "photo"
+  class?: string
+  eager?: boolean
+}
+const { src, alt, position = "50% 50%", color = "sky", class: className, eager = false } = Astro.props
+---
+<div class={cn("tile tile-img", `tile-${color}`, className)}>
+  <img src={src} alt={alt} loading={eager ? "eager" : "lazy"} decoding="async" style={`object-position: ${position}`} />
+</div>
