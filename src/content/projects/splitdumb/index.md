@@ -18,19 +18,21 @@ Splitdumb is a Splitwise-style app for group trips where everyone pays in whatev
 | | |
 |---|---|
 | **Status** | Live, used on a real group trip |
-| **Role** | Everything: product, design direction, testing. Built with Claude Code as my pair programmer |
+| **Role** | The three of us (me, Vishvesh and Suganth) as the team, with Claude Code writing the code |
 | **Stack** | Vanilla JS PWA (no build step), Vercel serverless functions, Vercel Redis, Material 3 Expressive (from my Twain app), Playwright |
-| **Timeline** | First usable version in four days (12–15 Nov 2026), refined from real use since |
+| **Timeline** | Started in a taxi on 12 Nov 2026, used for the rest of the trip, refined since |
 
 ## The itch
 
-It started as a bar bet. We were travelling through Vietnam, and over drinks Vishvesh, Suganth and I got into an argument about how easy it has become to build things today. The most obvious thing to build was the thing we all needed on that trip: a way to split expenses when everyone pays in a different currency.
+Ten years ago we used Splitwise to split every expense on a trip to Thailand, and it did the job. Ten years later we were in Vietnam, wanted to do the same, and the app felt dated. When we tried it, it wouldn't let us add more than three expenses a day, which doesn't go far when every coffee, ride and snack is its own expense.
 
-That is the whole brief I gave myself. I wanted a bill splitter that works the way a trip actually goes: one person pays in euros, another in pounds, a third in dong, and nobody wants to do exchange-rate maths at the airport. Friends should join by tapping a link, with no accounts, and it should look good, using the Material 3 Expressive design I'd already built for Twain.
+So we decided to build something better ourselves, right there: Vishvesh, Suganth and I, in the back of a taxi on the way from the hotel to an ATV track. The app took shape on that ride, and it kept growing over the days that followed.
+
+What we wanted was simple to say. A trip splitter that doesn't cap how many expenses you add, handles a different currency for every payer, lets friends join by tapping a link with no accounts, and looks good, using the Material 3 Expressive design I'd already built for Twain.
 
 ## What it does
 
-Create a trip, add the people, and log expenses. Each expense is recorded in the currency it was really paid in, with who paid (one person or several) and how it's split: equally, by exact amounts, by percentage, or by shares.
+Create a trip, add the people, and log expenses, as many as you like, with no daily limit. Each expense is recorded in the currency it was really paid in, with who paid (one person or several) and how it's split: equally, by exact amounts, by percentage, or by shares.
 
 ![The trip screen: total spent, tabs for Expenses, Balances and People, and each expense with its own currency and an approximate value in mine](./images/expenses.png)
 
