@@ -6,7 +6,7 @@ category: "Side project"
 tags: ["PWA", "Redis", "Material 3", "Vercel"]
 demoUrl: ""
 repoUrl: ""
-draft: true
+draft: false
 ---
 
 ## TL;DR
