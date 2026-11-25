@@ -11,7 +11,7 @@ draft: false
 
 ## TL;DR
 
-Travelmate is a phone-first trip app: paste a booking email or a tour itinerary and Claude turns it into days, stops, commutes, stays and flights, then edits them when you ask. The one thing to remember: Claude never rewrites the trip, it only returns a small patch that the app validates and applies, so every change can be checked and undone.
+Travelmate is a phone-first trip app. Paste a booking email or a tour itinerary and Claude turns it into days, stops, commutes, stays and flights, then edits them when you ask. The one thing to remember: Claude never rewrites the trip. It only hands back a small patch that the app validates and applies, so every change can be checked and undone. Trust, but verify. Mostly verify.
 
 ## Fact box
 
@@ -26,7 +26,7 @@ Travelmate is a phone-first trip app: paste a booking email or a tour itinerary 
 
 <!-- TODO(prash): add the real moment. Which trip, what was scattered where (emails, PDFs, notes, chat), and what you wished you could open on the day. A concrete scene beats this paragraph. -->
 
-On a trip, the plan lives in five places: a flight confirmation in one email, a hotel in another, a tour operator's PDF, some notes. What I wanted when standing in a street was one screen that answers three questions: where am I going today, how do I get there, and where am I sleeping tonight. Trip planners tend to be built for the planning, not for the day itself, so I started from a Claude Design handoff for exactly that screen and built the app around it.
+On a trip, the plan lives in five places: a flight confirmation in one email, a hotel in another, a tour operator's PDF, some notes. What I wanted, standing in a street and probably lost, was one screen that answers three questions: where am I going today, how do I get there, and where am I sleeping tonight. Trip planners are built for the planning, not for the day itself. In my day you had a paper map and a bad attitude, and honestly that worked. Anyway, I started from a Claude Design handoff for exactly that screen and built the app around it.
 
 ## What it does
 
@@ -44,7 +44,7 @@ The overview is honest about what's missing. A flight only counts as complete wi
 
 The app is a PWA, so it works offline from the saved copy. It adapts to desktop with a collapsible sidebar, and you can forward booking emails to an address of your own and find them waiting in the app.
 
-**What it deliberately doesn't do:** no accounts (one access code locks the whole app), no booking or payments, no live flight tracking, no PDF or attachment reading (only the text of an email), and nothing from an email is applied automatically. You choose the trip and press Apply.
+**What it deliberately doesn't do:** no accounts (one access code locks the whole app), no booking or payments, no live flight tracking, no PDF or attachment reading (only the text of an email), and nothing from an email is applied automatically. You choose the trip and press Apply. Yes, a human still presses a button. Revolutionary.
 
 ## How it works
 
@@ -66,7 +66,7 @@ phone / laptop (PWA)                    server (Docker, Hetzner)              se
 
 - **Chose patches over letting Claude rewrite the whole trip**, because a patch is small, cheap, checkable and undoable. The trade-off is that the model has to speak a fixed vocabulary of operations, so adding a new kind of change means extending the schema.
 - **Chose local-first plus one synced document over a database with tables**, because the trip is naturally one document and the app should work with no signal. The trade-off is conflict handling: if two devices both change, the app asks which copy to keep instead of merging.
-- **Chose a single access code over user accounts**, because it's one person's app and accounts would have been most of the work. The trade-off is that anyone with the code has full access.
+- **Chose a single access code over user accounts**, because it's one person's app and accounts would have been most of the work, and I'm lazy in exactly the right places. The trade-off is that anyone with the code has full access.
 - **Chose OpenStreetMap through Leaflet over Google Maps**, because Google needs a billing account and charges beyond a free allowance. The trade-off is lighter tiles and no place search.
 - **Chose a Docker container on my own server over Vercel**, which is where it started. I already run a shared Traefik and Cloudflare Tunnel setup, and long Claude calls aren't bound by serverless limits. The trade-off is that Cloudflare's roughly 100-second proxy timeout now applies.
 - **Skipped Anthropic's `strict: true` tool mode**, because it caps how many optional fields a schema may have and the itinerary format has far more than that. I validate every answer myself instead.
@@ -74,28 +74,28 @@ phone / laptop (PWA)                    server (Docker, Hetzner)              se
 
 ## What was hard
 
-**Getting Claude's edits to apply reliably.** The first version validated the answer and failed if anything was off. Real answers were off in small, harmless ways: a `null` for an empty field, a number sent as text, and most often a whole list sent as JSON text inside a string (`"ops": "[{...}]"`). Strict mode was ruled out (see above). What worked, in layers: spell out every operation in the tool schema, tell Claude that nested values are real arrays and objects, accept the harmless slips in the validator, parse JSON-in-a-string, and if it still fails, send the answer back once with exactly which fields were wrong. Only after that does the sheet show an error, and it names the failing field. I also made the error messages say why something failed (key rejected, out of credit, unknown model, busy, timed out), with Anthropic's request ID, because a single generic "something went wrong" cost me hours.
+**Getting Claude's edits to apply reliably.** The first version validated the answer and failed if anything was off. Real answers were off in small, harmless ways: a `null` for an empty field, a number sent as text, and most often a whole list sent as JSON text inside a string (`"ops": "[{...}]"`). A list wearing a string costume. Honestly, rude. Strict mode was ruled out (see above). What worked, in layers: spell out every operation in the tool schema, tell Claude that nested values are real arrays and objects, accept the harmless slips in the validator, parse JSON-in-a-string, and if it still fails, send the answer back once with exactly which fields were wrong. Only after that does the sheet show an error, and it names the failing field. I also made the error messages say why something failed (key rejected, out of credit, unknown model, busy, timed out), with Anthropic's request ID, because a single generic "something went wrong" cost me hours. Hours. Of my one life.
 
 **Debugging a failure that wasn't Anthropic's.** At one point every call returned a 503 "credential validation failed" with no request ID. A bad key gets a 401 with a request ID from Anthropic, so something else was answering. That's why `/api/health` now reports which host requests go to, what kind of key it is, whether it has stray quotes or spaces from pasting, and whether the reply carries Anthropic's request ID. <!-- TODO(prash): say what the cause turned out to be, if you found it. -->
 
 ## What I learned
 
 - **Technical:** make the model's output a small, validated format and keep your own code in charge of applying it. Putting validation, defaults and undo in one place made the model's mistakes cheap. Write diagnostics (a health check that never returns the key) before you need them.
-- **Product:** show what's missing instead of hiding it. The dashed "needs flight number" tile did more for trust than any amount of polish. Four visual styles in four weeks (DB-style, clay, 8-bit pixel art) was cheap because the tokens lived in two files, and I'd still keep it that way.
+- **Product:** show what's missing instead of hiding it. The dashed "needs flight number" tile did more for trust than any amount of polish. Four visual styles in four weeks (DB-style, clay, 8-bit pixel art) was cheap because the tokens lived in two files, and I'd still keep it that way. Commitment issues, but make it modular.
 - **Process:** a Claude Design handoff gave me real spacing and copy to build against instead of guessing. Keeping the README current as I went made handing over the next change easy.
-- **Differently next time:** decide on hosting before building. I moved from Vercel to my own server in week four.
+- **Differently next time:** decide on hosting before building. I moved from Vercel to my own server in week four. Week four. Of course it was week four.
 
 ## What's next
 
 - Store a timezone per day, so the "now" line follows the trip's local time.
 - Read PDF tickets, not just email text.
 - A "Now / Next" widget for the lock screen.
-- Rate limiting on the Claude routes: every request spends my credits.
+- Rate limiting on the Claude routes: every request spends my credits. My wallet would like this one soon.
 - Open question: is one access code enough if I share a trip with someone travelling with me?
 
 ## Try it
 
-It's private: it's locked behind an access code because every request spends my Anthropic credits, and the source stays private too. Here is the app in use.
+It's private: it's locked behind an access code because every request spends my Anthropic credits, and the source stays private too. Here's the app in use, museum-style: look, don't touch.
 
 ![The Trips screen with each trip as a card](images/trips.png)
 
