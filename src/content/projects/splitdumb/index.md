@@ -24,9 +24,9 @@ Splitdumb is a Splitwise-style app for group trips where everyone pays in whatev
 
 ## The itch
 
-<!-- TODO(prash): add the real moment. Which trip, what went wrong, what you were doing instead (spreadsheet? chat?). A concrete scene beats this paragraph. -->
+It started as a bar bet. We were travelling through Vietnam, and over drinks Vishvesh, Suganth and I got into an argument about how easy it has become to build things today. The most obvious thing to build was the thing we all needed on that trip: a way to split expenses when everyone pays in a different currency.
 
-I wanted a bill splitter for trips that works the way a trip actually goes: one person pays in euros, another in pounds, a third in yen, and nobody wants to do exchange-rate maths at the airport. I also wanted friends to join by tapping a link, with no accounts, and I wanted it to look good, using the Material 3 Expressive design I'd already built for Twain.
+That is the whole brief I gave myself. I wanted a bill splitter that works the way a trip actually goes: one person pays in euros, another in pounds, a third in dong, and nobody wants to do exchange-rate maths at the airport. Friends should join by tapping a link, with no accounts, and it should look good, using the Material 3 Expressive design I'd already built for Twain.
 
 ## What it does
 
