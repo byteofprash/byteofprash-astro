@@ -27,7 +27,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .tile-warm  { background: var(--warm);  color: var(--paper); }
 .tile-deep  { background: var(--deep);  color: var(--paper); }
 .tile-photo { background: var(--photo); color: var(--paper); }
-.tile { padding: var(--tile-pad); }
+.tile { padding: var(--tile-pad); min-width: 0; }
 .tile-lg { padding: 36px 40px; }
 .tile-sm { padding: 20px; }
 .tile-img { padding: 0; overflow: hidden; }
@@ -92,8 +92,10 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .post { @apply prose prose-lg max-w-none; font-size: 18px; line-height: 1.7; }
 .post h1, .post h2, .post h3, .post h4 { font-family: var(--font-display); font-weight: 600; }
 .post a { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-.post img { border-radius: var(--radius); margin: 1.5rem auto; display: block; }
-.post pre { border-radius: var(--radius); position: relative; }
+.post { min-width: 0; overflow-wrap: anywhere; }
+.post img, .post video, .post svg { max-width: 100%; height: auto; border-radius: var(--radius); margin: 1.5rem auto; display: block; }
+.post table { display: block; max-width: 100%; overflow-x: auto; }
+.post pre { border-radius: var(--radius); position: relative; max-width: 100%; overflow-x: auto; }
 
 /* Code copy button (public/js/copy.js) */
 .copy-cnt { @apply absolute w-full; top: var(--copy-btn-margin); }
