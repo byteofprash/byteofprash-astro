@@ -16,7 +16,7 @@ const mon = Intl.DateTimeFormat("en-US", { month: "long", year: "numeric" }).for
 ---
 
 <PageLayout title={title} description={summary || title}>
-  <div class="grid gap-5 lg:grid-cols-3">
+  <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
     <Tile color="paper" size="lg" class="flex flex-col gap-4 lg:col-span-1">
       <a href="/projects" class="link text-[15px]">← Select projects</a>
       <span class="mt-4 text-sm">{category ?? "Project"} · {mon}</span>
