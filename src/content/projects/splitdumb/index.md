@@ -11,7 +11,7 @@ draft: false
 
 ## TL;DR
 
-Splitdumb is a Splitwise-style app for group trips where everyone pays in whatever currency is in their pocket. The one thing to remember: it never converts the books, because every balance stays in the currency it was paid in and your own currency is just a lens on top.
+Splitdumb is basically Splitwise for group trips where everyone's paying in whatever currency they've got on them. The one idea behind it: it never converts anything. Every balance stays in the currency it was paid in, and your own currency is just the way you look at it. It took me two wrong attempts to get there, so "idea" is generous.
 
 ## Fact box
 
@@ -24,27 +24,27 @@ Splitdumb is a Splitwise-style app for group trips where everyone pays in whatev
 
 ## The itch
 
-Ten years ago we used Splitwise to split every expense on a trip to Thailand, and it did the job. Ten years later we were in Vietnam, wanted to do the same, and the app felt dated. When we tried it, it wouldn't let us add more than three expenses a day, which doesn't go far when every coffee, ride and snack is its own expense.
+Ten years ago we split every expense on our Thailand trip using Splitwise and it was fine. Ten years later we're in Vietnam, want to do the same, and the app feels ancient. Ten years! In my day that was barely a software update. Then it tells us we can add only three expenses a day. Three! Every coffee, every ride, every bloody snack is its own expense, so that's gone in an hour.
 
-So we decided to build something better ourselves, right there: Vishvesh, Suganth and I, in the back of a taxi on the way from the hotel to an ATV track. Roughly 70 to 80 percent of the app was built on that one ride. After that we kept making small changes all through the rest of the trip, as we used it.
+So we said fuck it, we'll build our own. Me, Vishvesh and Suganth, in the back of a taxi going from the hotel to an ATV track. Roughly 70 to 80 percent of the app got built on that one ride, which says a lot about how little else I had going on. A taxi ride. Back in the day that was when you looked out the window and thought about your life. After that we kept tweaking it all through the rest of the trip, as we actually used it.
 
-What we wanted was simple to say. A trip splitter that doesn't cap how many expenses you add, handles a different currency for every payer, lets friends join by tapping a link with no accounts, and looks good, using the Material 3 Expressive design I'd already built for Twain.
+What we wanted was simple. A trip splitter that doesn't cap how many expenses you add, handles a different currency for every payer, lets friends join by tapping a link (no accounts, because nobody wants to sign up for yet another thing), and looks good, using the Material 3 Expressive design I'd already built for Twain.
 
 ## What it does
 
-Create a trip, add the people, and log expenses, as many as you like, with no daily limit. Each expense is recorded in the currency it was really paid in, with who paid (one person or several) and how it's split: equally, by exact amounts, by percentage, or by shares.
+Create a trip, add the people, and log as many expenses as you like. No daily limit, because we're not animals. Each expense is recorded in the currency it was really paid in, with who paid (one person or several) and how it's split: equally, by exact amounts, by percentage, or by shares.
 
 ![The trip screen: total spent, tabs for Expenses, Balances and People, and each expense with its own currency and an approximate value in mine](./images/expenses.png)
 
-Every phone picks its own currency in a first-run popup. Totals and "≈" amounts are shown in it, so two friends can open the same trip and each see their own money. Friends join through an invite link, and changes show up on everyone's phone within a few seconds. It keeps working offline and syncs when the connection comes back.
+Every phone picks its own currency in a popup on first run. Totals and "≈" amounts show in that currency, so two friends can open the same trip and each see their own money. Friends join through an invite link, and changes show up on everyone's phone within a few seconds. It keeps working offline and syncs when the connection comes back, which, for something built in a taxi, is frankly showing off.
 
 ![Adding an expense in yen, with an approximate value in my own currency under the amount and the split options below](./images/add-expense.png)
 
-Balances are listed per currency, for information. **Settle up** sits at the top, in your own currency: one short list of who pays whom for the whole trip, with a Record button on each. It also has a "Simplify debts" switch like Splitwise's, and a CSV export for the spreadsheet people.
+Balances are listed per currency, just for information. **Settle up** sits at the top, in your own currency: one short list of who pays whom for the whole trip, with a Record button on each. It also has a "Simplify debts" switch like Splitwise's, and a CSV export for the spreadsheet people. You know who you are.
 
 ![Settle up in my currency: a tree of who pays whom, with the amount and a Record button on each branch](./images/settle-up.png)
 
-**What it deliberately doesn't do:** no accounts or passwords (the invite link is the access), no receipts or photos, no categories, no push notifications, and no live exchange-rate locking beyond the moment a payment is recorded.
+**What it deliberately doesn't do:** no accounts or passwords (the invite link is the access), no receipts or photos, no categories, no push notifications (go check your phone like it's 2009), and no live exchange-rate locking beyond the moment a payment is recorded.
 
 ## How it works
 
@@ -67,22 +67,22 @@ phone (PWA, vanilla JS)                 Vercel                     Vercel Redis
 - **Chose per-currency balances over converting everything to a trip currency**, because rates move and each person thinks in their own money. Skipped a fixed "base currency" per trip.
 - **Chose an unguessable link over accounts**, because friends join by tapping a message. The trade-off is that anyone with the link can edit or delete, so it's meant for a trusted group.
 - **Chose small operations in separate hash fields over saving the whole trip**, so concurrent edits merge. The trade-off is that there are no transactions: the last write to a single item wins.
-- **Chose polling every 5 seconds over websockets**, because it fits serverless and is trivial to reason about. The trade-off is a few seconds of lag.
+- **Chose polling every 5 seconds over websockets**, because it fits serverless and is trivial to reason about. The trade-off is a few seconds of lag, which, fine, builds character.
 - **Chose vanilla JS with no build step over a framework**, because Twain already worked that way and the app stays tiny. The trade-off is hand-rolled DOM helpers.
-- **Skipped an iPhone-style design on the main branch.** I built it, then parked it on its own branch to keep one consistent look for now.
+- **Skipped an iPhone-style design on the main branch.** I built it, then parked it on its own branch to keep one consistent look for now. Built a whole design and then shelved it. Classic me.
 
 ## What was hard
 
-**Settling up across currencies.** I got this wrong twice. First, everything was converted into a trip currency with saved rates, which broke the moment friends wanted their own currency. Then I settled per currency, which turned three people into up to six payments in three currencies. What finally worked: balances stay per currency as the source of truth, and the viewer's currency is only presentation. Settling happens once, in the viewer's currency, and each payment carries "legs": the original-currency amounts it actually settles, at that day's rates. Recording every suggested payment must bring everyone to exactly zero, in both simplified and per-pair mode, and deleting a payment must restore every balance exactly. Those two rules became property tests. I also had to delete the stale settlement records from the live database; I backed them up first and checked afterwards that every expense was untouched.
+**Settling up across currencies.** I got this wrong twice. First I converted everything into one trip currency using saved rates, and that fell apart the moment friends wanted their own currency. Then I settled per currency, and suddenly three people meant up to six payments in three currencies. Genius. Really helping the group there. What finally worked, and it's obvious in hindsight like everything is: balances stay per currency as the source of truth, and the viewer's currency is only presentation. Settling happens once, in the viewer's currency, and each payment carries "legs": the original-currency amounts it actually settles, at that day's rates. Recording every suggested payment must bring everyone to exactly zero, in both simplified and per-pair mode, and deleting a payment must restore every balance exactly. Those two rules became property tests. I also had to delete the stale settlement records from the live database. Backed them up first, because I'm an idiot but not that kind of idiot, and checked afterwards that every expense was untouched.
 
-**A stale app after a deploy.** My first service worker served the cached copy and refreshed it in the background. After I changed the data model, a friend's phone still ran the old app against the new server and showed an "undefined" currency. The fix was a network-first worker, a forced reload for phones stuck on old versions, and an app version in the profile so a stale phone is easy to spot.
+**A stale app after a deploy.** My first service worker served the cached copy and refreshed it in the background. Then I changed the data model, and a friend's phone kept running the old app against the new server and showed "undefined" as a currency. Undefined. On a money app. I deserved that one. Kids today call it a caching issue; we used to call it hitting refresh and praying. The fix was a network-first worker, a forced reload for phones stuck on old versions, and an app version in the profile so a stale phone is easy to spot.
 
 ## What I learned
 
 - **Technical:** store facts and derive views. Per-currency nets are the truth, and rates only appear at display time and at the moment of payment. Test money maths with invariants ("settle everything, get zero"), not just examples. Cache policy matters as much as the code you ship.
 - **Product:** ask "whose currency?" before designing the data model. I changed that answer twice. Using it on a real trip found things no test would.
 - **Process:** a shared pure-logic module kept the browser, the API and the MCP server honest.
-- **Differently next time:** write the invariants first, and build backup and export on day one. They came later, after real data existed.
+- **Differently next time:** write the invariants first, and build backup and export on day one. They came later, after real data existed, which is exactly the wrong time to learn why you need a backup. Sigh.
 
 ## What's next
 
