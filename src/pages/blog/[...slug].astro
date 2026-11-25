@@ -1,35 +1,42 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
-import TopLayout from "@layouts/TopLayout.astro"
-import BottomLayout from "@layouts/BottomLayout.astro"
-import ArticleTopLayout from "@layouts/ArticleTopLayout.astro"
-import ArticleBottomLayout from "@layouts/ArticleBottomLayout.astro"
+import Tile from "@components/Tile.astro"
+import { formatDate, readingTime } from "@lib/utils"
 
-// Create the static blog pages
 export async function getStaticPaths() {
-	const posts = await getCollection("blog")
-	return posts.map((post) => ({
-		params: { slug: post.slug },
-		props: post,
-	}))
+  const posts = await getCollection("blog")
+  return posts.map((post) => ({ params: { slug: post.slug }, props: post }))
 }
 
-// Get the requested post
 type Props = CollectionEntry<"blog">
 const post = Astro.props
-const { title, summary } = post.data
+const { title, summary, date } = post.data
+const { Content } = await post.render()
+
+const items = (await getCollection("blog"))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+const i = items.findIndex((x) => x.slug === post.slug)
+const prev = i >= 0 ? items[i + 1] : undefined // older
+const next = i > 0 ? items[i - 1] : undefined // newer
 ---
 
-<PageLayout title={title} description={summary}>
-  <TopLayout>
-    <div class="animate">
-      <ArticleTopLayout entry={post}/>
+<PageLayout title={title} description={summary || title}>
+  <Tile color="paper" size="lg">
+    <div class="mx-auto max-w-[680px]">
+      <a href="/blog" class="link text-[15px]">← Writing</a>
+      <h1 class="mt-6 mb-0 text-[clamp(34px,6vw,56px)] leading-[1.1]">{title}</h1>
+      <p class="mono mt-3 text-[13px] text-muted">
+        <time datetime={date.toISOString()}>{formatDate(date)}</time> · {readingTime(post.body)}
+      </p>
+      <article class="post mt-8 pb-4">
+        <Content />
+      </article>
+      <nav aria-label="More posts" class="mt-8 flex flex-wrap justify-between gap-4 border-t border-soft pt-6 text-[17px]">
+        {prev ? <a href={`/blog/${prev.slug}`} class="link display font-medium">← {prev.data.title}</a> : <span />}
+        {next ? <a href={`/blog/${next.slug}`} class="link display font-medium">{next.data.title} →</a> : <span />}
+      </nav>
     </div>
-  </TopLayout>
-  <BottomLayout>
-    <div class="animate">
-      <ArticleBottomLayout entry={post} />
-    </div>
-  </BottomLayout>
+  </Tile>
 </PageLayout>

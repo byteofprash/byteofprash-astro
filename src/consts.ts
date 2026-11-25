@@ -39,26 +39,11 @@ export const SEARCH: Page = {
 
 // Links
 export const LINKS: Links = [
-  {
-    TEXT: "Home",
-    HREF: "/",
-  },
-  {
-    TEXT: "Work",
-    HREF: "/work",
-  },
-  {
-    TEXT: "Blog",
-    HREF: "/blog",
-  },
-  {
-    TEXT: "Projects",
-    HREF: "/projects",
-  },
-  {
-    TEXT: "Photography",
-    HREF: "/photography",
-  },
+  { TEXT: "Story", HREF: "/story" },
+  { TEXT: "Projects", HREF: "/projects" },
+  { TEXT: "Writing", HREF: "/blog" },
+  { TEXT: "Work", HREF: "/work" },
+  { TEXT: "Photography", HREF: "/photography" },
 ]
 
 // Socials

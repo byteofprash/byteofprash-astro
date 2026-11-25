@@ -1,0 +1,31 @@
+---
+import { LINKS } from "@consts"
+import { cn } from "@lib/utils"
+
+type Props = { home?: boolean }
+const { home = false } = Astro.props
+const pathname = Astro.url.pathname
+const first = "/" + (pathname.match(/[^/]+/g)?.[0] ?? "")
+---
+
+{home ? (
+  <nav aria-label="Main" class="flex flex-wrap gap-x-8 gap-y-2 text-[17px]">
+    <a href="#story" class="hover:underline underline-offset-4">Story</a>
+    <a href="/projects" class="hover:underline underline-offset-4">Projects</a>
+    <a href="#writing" class="hover:underline underline-offset-4">Writing</a>
+    <a href="#contact" class="hover:underline underline-offset-4">Contact</a>
+  </nav>
+) : (
+  <header class="tile tile-paper flex flex-wrap items-center justify-between gap-x-8 gap-y-3 !py-5 !px-8">
+    <a href="/" class="display text-[26px] font-semibold tracking-tight">Prash</a>
+    <nav aria-label="Main" class="flex flex-wrap gap-x-6 gap-y-2 text-[17px]">
+      {LINKS.map((l) => (
+        <a
+          href={l.HREF}
+          aria-current={first === l.HREF ? "page" : undefined}
+          class={cn("underline-offset-4 decoration-1", first === l.HREF ? "underline" : "hover:underline")}
+        >{l.TEXT}</a>
+      ))}
+    </nav>
+  </header>
+)}

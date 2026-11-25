@@ -1,0 +1,27 @@
+---
+import PageLayout from "@layouts/PageLayout.astro"
+import Tile from "@components/Tile.astro"
+import ImageTile from "@components/ImageTile.astro"
+---
+
+<PageLayout title="Story" description="Who I am, what I do, and what I like to build.">
+  <Tile color="soft" size="lg">
+    <h1 class="m-0 text-[clamp(40px,7vw,72px)] leading-[1.04]">Story</h1>
+    <p class="mt-6 max-w-[720px] text-[25px] leading-[1.45]">I help enterprise teams make promotions and loyalty work at scale. I love tinkering, building small useful things, and writing about what I learn.</p>
+  </Tile>
+  <div class="grid gap-5 md:grid-cols-2">
+    <Tile color="paper" size="lg" class="space-y-4 text-[17px]">
+      <p class="m-0">I'm Prash, born and brought up in India and now based in Erding, Germany. I work as a Principal Enterprise Sales Engineer at Talon.One.</p>
+      <p class="m-0">I have a knack for creating things, be it photography, carpentry, software or ruckus ;)</p>
+      <p class="m-0">I love going down the rabbit hole. Maybe that's why the internet has been my first home since the early 2000s.</p>
+      <p class="m-0"><a href="/work" class="link">Where I've worked →</a></p>
+    </Tile>
+    <ImageTile
+      class="min-h-[420px]"
+      color="photo"
+      src="/assets/prash.jpg"
+      alt="Prash smiling in an orange cap and patterned shirt, with green hills and water behind him"
+      position="50% 35%"
+    />
+  </div>
+</PageLayout>

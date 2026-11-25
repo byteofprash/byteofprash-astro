@@ -1,0 +1,29 @@
+---
+import { cn } from "@lib/utils"
+
+type Props = {
+  color: "paper" | "soft" | "gold" | "deep" | "warm" | "sky" | "photo"
+  href?: string
+  size?: "default" | "lg" | "sm" | "none"
+  class?: string
+  id?: string
+  external?: boolean
+}
+const { color, href, size = "default", class: className, id, external } = Astro.props
+const classes = cn(
+  "tile",
+  `tile-${color}`,
+  size === "lg" && "tile-lg",
+  size === "sm" && "tile-sm",
+  size === "none" && "tile-img",
+  className,
+)
+const rel = external ? "noopener noreferrer" : undefined
+const target = external ? "_blank" : undefined
+---
+
+{href ? (
+  <a href={href} id={id} class={classes} rel={rel} target={target}><slot /></a>
+) : (
+  <div id={id} class={classes}><slot /></div>
+)}

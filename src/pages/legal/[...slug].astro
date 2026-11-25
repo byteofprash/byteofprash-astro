@@ -1,42 +1,27 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content"
 import PageLayout from "@layouts/PageLayout.astro"
-import TopLayout from "@layouts/TopLayout.astro"
-import BottomLayout from "@layouts/BottomLayout.astro"
+import Tile from "@components/Tile.astro"
 import { formatDate } from "@lib/utils"
 import { SITE } from "@consts"
 
-// Create the static pages for legal docs
 export async function getStaticPaths() {
-	const docs = await getCollection("legal")
-	return docs.map((doc) => ({
-		params: { slug: doc.slug },
-		props: doc,
-	}))
+  const docs = await getCollection("legal")
+  return docs.map((doc) => ({ params: { slug: doc.slug }, props: doc }))
 }
 
-// Get the requested legal doc
-type Props = CollectionEntry<"legal">;
+type Props = CollectionEntry<"legal">
 const doc = Astro.props
 const { title, date } = doc.data
-const { Content } = await doc.render();
-
+const { Content } = await doc.render()
 ---
 
 <PageLayout title={title} description={`${title} for ${SITE.TITLE}`}>
-  <TopLayout>
-    <div class="animate">
-      <div class="page-heading">
-        {title}
-      </div>
-      <p class="font-normal opacity-75">
-        Last updated: {formatDate(date)}
-      </p>
+  <Tile color="paper" size="lg">
+    <div class="mx-auto max-w-[680px]">
+      <h1 class="m-0 text-[clamp(40px,7vw,64px)] leading-[1.04]">{title}</h1>
+      <p class="mono mt-3 text-[13px] text-muted">Last updated: {formatDate(date)}</p>
+      <article class="post mt-8"><Content /></article>
     </div>
-  </TopLayout>
-  <BottomLayout>
-    <article class="animate">
-      <Content/>
-    </article>
-  </BottomLayout>
+  </Tile>
 </PageLayout>
