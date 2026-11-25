@@ -20,13 +20,13 @@ Splitdumb is a Splitwise-style app for group trips where everyone pays in whatev
 | **Status** | Live, used on a real group trip |
 | **Role** | The three of us (me, Vishvesh and Suganth) as the team, with Claude Code writing the code |
 | **Stack** | Vanilla JS PWA (no build step), Vercel serverless functions, Vercel Redis, Material 3 Expressive (from my Twain app), Playwright |
-| **Timeline** | Started in a taxi on 12 Nov 2026, used for the rest of the trip, refined since |
+| **Timeline** | Roughly 70–80% built in one taxi ride (12 Nov 2026), then small changes throughout the trip as we used it |
 
 ## The itch
 
 Ten years ago we used Splitwise to split every expense on a trip to Thailand, and it did the job. Ten years later we were in Vietnam, wanted to do the same, and the app felt dated. When we tried it, it wouldn't let us add more than three expenses a day, which doesn't go far when every coffee, ride and snack is its own expense.
 
-So we decided to build something better ourselves, right there: Vishvesh, Suganth and I, in the back of a taxi on the way from the hotel to an ATV track. The app took shape on that ride, and it kept growing over the days that followed.
+So we decided to build something better ourselves, right there: Vishvesh, Suganth and I, in the back of a taxi on the way from the hotel to an ATV track. Roughly 70 to 80 percent of the app was built on that one ride. After that we kept making small changes all through the rest of the trip, as we used it.
 
 What we wanted was simple to say. A trip splitter that doesn't cap how many expenses you add, handles a different currency for every payer, lets friends join by tapping a link with no accounts, and looks good, using the Material 3 Expressive design I'd already built for Twain.
 
