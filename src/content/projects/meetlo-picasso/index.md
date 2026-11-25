@@ -11,7 +11,7 @@ draft: false
 
 ## TL;DR
 
-Meetlo Picasso lets you highlight, circle and point at things on a web page while you present. The one thing to remember: it draws inside the page itself, so your drawing is part of the window you share, and you never have to share your whole screen.
+Meetlo Picasso lets you highlight, circle and point at things on a web page while you present. The one thing to remember: it draws inside the page itself, so your drawing is part of the window you share, and you never have to share your whole screen. Because nobody needs to see my other tabs. Trust me.
 
 ## Fact box
 
@@ -26,9 +26,9 @@ Meetlo Picasso lets you highlight, circle and point at things on a web page whil
 
 When you present in Zoom, Google Meet or Teams, the sharpest way to share is a single Chrome window instead of your whole desktop. It keeps notifications, other tabs and half-finished work out of view.
 
-The catch is that screen-drawing apps live above the desktop. Share one window and your arrows and circles vanish, because they were never part of that window. Your audience sees a clean page and you are left saying "look at the number on the right, no, the other right".
+The catch is that screen-drawing apps live above the desktop. Share one window and your arrows and circles vanish, because they were never part of that window. Your audience sees a clean page and you are left saying "look at the number on the right, no, the other right". Everyone's been there. Painful.
 
-I wanted a pen that lives inside the page, so whatever I draw is automatically part of what gets shared.
+I wanted a pen that lives inside the page, so whatever I draw is automatically part of what gets shared. In my day you just pointed at the screen with your finger. Now we have meetings where nobody is even in the room.
 
 ## What it does
 
@@ -36,7 +36,7 @@ Click the toolbar icon or press **Alt+Shift+D** and a transparent canvas covers 
 
 ![A dashboard annotated with a highlight, circle, arrow, text and rectangle](./images/screenshot-1-annotate.jpg)
 
-Shuffle mode gives every stroke its own random gradient, which is mostly there because it looks good on a call.
+Shuffle mode gives every stroke its own random gradient, which is mostly there because it looks good on a call. Zero productivity value. Totally worth it.
 
 ![Shuffled gradient strokes drawn over a page](./images/screenshot-2-shuffle-gradients.jpg)
 
@@ -44,7 +44,7 @@ Press **H** to hide the toolbar before you present, **Esc** to finish. Closing e
 
 ![The color menu opening above the toolbar, with the shuffle button](./images/screenshot-3-colors-and-shuffle.jpg)
 
-**What it deliberately doesn't do:** no saving or exporting drawings, no accounts, no analytics, no access to the sites you visit, and no drawing over Chrome's own UI, other apps or the Web Store and `chrome://` pages.
+**What it deliberately doesn't do:** no saving or exporting drawings, no accounts, no analytics (I don't need to know what you're drawing, and frankly I don't want to), no access to the sites you visit, and no drawing over Chrome's own UI, other apps or the Web Store and `chrome://` pages.
 
 ## How it works
 
@@ -77,25 +77,25 @@ background.js (service worker)
 - **Chose Chrome's own shortcut settings over a custom key recorder**, because Chrome already handles conflicts and a Global scope that works while Zoom has focus.
 - **Chose screen-attached drawing over page-attached drawing.** Strokes stay put when you scroll instead of being anchored to the page content. That's simpler and matches how a laser pointer or marker works on a shared screen.
 - **Skipped saving drawings**, because "closing erases everything" is the privacy story, and it is simple to explain and to keep true.
-- **Skipped a build step.** One content script, plain JavaScript, loads unpacked.
+- **Skipped a build step.** One content script, plain JavaScript, loads unpacked. No webpack, no config rabbit hole, no crying. Lovely.
 
 ## What was hard
 
-**Making a drawing layer that doesn't fight the page.** A transparent canvas over a web page sounds simple until you want to scroll, click through and type. The canvas takes the pointer so you can draw, but the wheel still scrolls the page, Space temporarily lets clicks through, and **I** toggles a full "interact" mode. The shortcut also has to keep working while focus is inside an iframe, even though the drawing layer only covers the top page.
+**Making a drawing layer that doesn't fight the page.** A transparent canvas over a web page sounds simple until you want to scroll, click through and type. Which, it turns out, is everything you'd ever want to do on a web page. The canvas takes the pointer so you can draw, but the wheel still scrolls the page, Space temporarily lets clicks through, and **I** toggles a full "interact" mode. The shortcut also has to keep working while focus is inside an iframe, even though the drawing layer only covers the top page.
 
-**Fading ink without a mess.** Fading strokes need to stay fully visible for a moment and then fade, so each one carries its own timestamp and a single animation frame loop redraws only while something is fading.
+**Fading ink without a mess.** Fading strokes need to stay fully visible for a moment and then fade, so each one carries its own timestamp and a single animation frame loop redraws only while something is fading. A lot of engineering for ink that disappears. The irony isn't lost on me.
 
 ## What I learned
 
 - **Technical:** Manifest V3 plus `activeTab` is enough for a surprisingly capable extension, and asking for less is a feature. A Shadow DOM is the right default for any UI you inject into someone else's page.
 - **Product:** the best constraint was "it must still work when you share one window". Every decision followed from it.
-- **Process:** writing the privacy policy early forced the permission list to stay honest.
+- **Process:** writing the privacy policy early forced the permission list to stay honest. Never thought I'd say writing a privacy policy was useful.
 - **Differently next time:** TODO (yours to fill in).
 
 ## What's next
 
-- Replace the placeholder store link on the landing page with the real listing once Google approves it.
-- Host the demo video and screenshots with the landing page. The first deploy went up without the big media.
+- Replace the placeholder store link on the landing page with the real listing once Google approves it. Waiting on Google. Again. Always.
+- Host the demo video and screenshots with the landing page. The first deploy went up without the big media. Classic me: shipped the page, forgot the actual demo.
 - Open question: is a laser-pointer mode (a dot that follows the cursor and leaves no ink) worth adding?
 
 ## Try it
