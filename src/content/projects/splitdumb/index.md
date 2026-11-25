@@ -90,8 +90,3 @@ phone (PWA, vanilla JS)                 Vercel                     Vercel Redis
 - Read-only invite links, for people who should see but not edit.
 - Bringing the Apple-style design back on iPhone, once I decide whether to maintain two looks.
 - Open question: should the invite link be enough, or does a group of strangers need real accounts?
-
-## Try it
-
-- **Demo:** <!-- TODO(prash): add the live URL (and set demoUrl above) -->
-- **Source:** private repo for now <!-- TODO(prash): make it public, or leave repoUrl empty -->
