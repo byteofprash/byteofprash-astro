@@ -11,7 +11,7 @@ draft: false
 
 ## TL;DR
 
-Twain started as a bar bet that an app is easy to build once you have a design system. It is a flashcard app that drills the 994 words of a German B1 word list: you see a word, hear it, flip, rate how well you knew it, and a spaced-repetition scheduler decides when it comes back. It is a static site with no backend or API key, so the one thing to remember is that everything (scheduling, audio, progress) lives in the browser.
+Twain started as a bar bet that building an app is easy once you have a design system. It's a flashcard app that drills the 994 words of a German B1 word list: you see a word, hear it, flip, rate how well you knew it, and a spaced-repetition scheduler decides when it comes back. It's a static site with no backend and no API key, so the one thing to remember is that everything (scheduling, audio, progress) lives in the browser. Yes, I built an app to learn German instead of just learning German.
 
 ## Fact box
 
@@ -24,9 +24,9 @@ Twain started as a bar bet that an app is easy to build once you have a design s
 
 ## The itch
 
-It started as a bar bet. I told Vishvesh that if you already have a design system ready, building an app these days is super easy. He took the other side, so we made it a bet.
+It started as a bar bet. I told Vishvesh that if you already have a design system ready, building an app these days is super easy. He disagreed, so we made it a bet. A bet over whether an app can get built, over drinks. When I started out you had to read a manual, and the manual was a book.
 
-I had the design system: the 8-bit pixel-art look from my travel app. All I needed was something to build with it. I also had a B1 German word list as a PDF, about a thousand words with a translation, an example sentence and the article for each noun. A PDF is good for reading and bad for remembering, so a flashcard app that quizzes me on it was the obvious test case.
+I had the design system: the 8-bit pixel-art look from my travel app. All I needed was something to build with it. I also had a B1 German word list as a PDF, about a thousand words with a translation, an example sentence and the article for each noun. A PDF is good for reading and useless for remembering, so a flashcard app that quizzes me on it was the obvious test case. Also a great way to feel productive without actually studying any German.
 
 ## What it does
 
@@ -38,7 +38,7 @@ Every day it hands you a short session: due reviews first, then up to 15 new wor
 
 It also has a searchable word list with filters, three card styles (German to English, English to German, and listening-only), light and dark themes, and a backup you can export and import. The logo is a caricature of Mark Twain, who wrote *The Awful German Language*, and the app quotes him.
 
-What it deliberately doesn't do: no accounts, no cloud sync, no streak guilt-tripping, no AI. Progress stays on the device.
+What it deliberately doesn't do: no accounts, no cloud sync, no streak guilt-tripping (I get enough of that from my own head), no AI. Progress stays on the device.
 
 ## How it works
 
@@ -53,25 +53,25 @@ It is a static site. There is nothing to run besides a file server.
 
 ### Decisions & trade-offs
 
-- **Static site over Next.js.** My travel app uses Next.js, but Twain has no server logic, so a static site is cheaper to host and can't break on a missing API key.
+- **Static site over Next.js.** My travel app uses Next.js, but Twain has no server logic, so a static site is cheaper to host and can't break on a missing API key. Not everything needs a framework. I know, I'm shocked too.
 - **Browser speech over a text-to-speech API.** It is free and works offline, but the quality depends on the voices installed on the device. I accepted that and added a voice picker.
-- **SM-2 over FSRS.** FSRS predicts better, but SM-2 is about 60 lines I can read in one go. I skipped FSRS for now.
+- **SM-2 over FSRS.** FSRS predicts better, but SM-2 is about 60 lines I can read in one go. My brain is also about 60 lines. I skipped FSRS for now.
 - **`localStorage` over a backend.** No sync between phone and laptop, in exchange for no accounts and no database. Export and import cover moving devices.
 - **All 994 words, not "the 1000 most common".** The list I had isn't ranked by frequency, so I kept it whole and introduce new words in a fixed shuffled order, with A to Z as an option, instead of pretending it is a frequency list.
-- **Material 3 Expressive over my usual pixel-art look.** I first built it in 8-bit style like my other apps, then redesigned it after looking at how Google's health apps are put together. Rounded shapes, spring motion and tonal colour suit a daily-use tool better than a novelty style.
+- **Material 3 Expressive over my usual pixel-art look.** I first built it in 8-bit style like my other apps, then redesigned it after looking at how Google's health apps are put together. Rounded shapes, spring motion and tonal colour suit a daily-use tool better than a novelty style. Pixel art was fun, but not something I wanted to stare at every day.
 
 ## What was hard
 
-**Getting the words out of the PDF.** Copying the text gave me garbled words: "Abfall" came out as "Abf" and "Versicherung" as "Versicherng". The PDF's font had no Unicode map for a few letters, so the text extractor either dropped them or returned private-use characters. Looking at the raw characters showed a small, consistent set (a, l, u, ä, ü and some punctuation), so I mapped them back by hand. A second problem was that multi-line cells broke the row order, so I rebuilt the table from character positions, using the word-type column to mark where each row starts. That produced 994 clean entries, and I spot-checked a sample against the PDF.
+**Getting the words out of the PDF.** Copying the text gave me garbled words: "Abfall" came out as "Abf" and "Versicherung" as "Versicherng". The PDF's font had no Unicode map for a few letters, so the text extractor either dropped them or returned private-use characters. Looking at the raw characters showed a small, consistent set (a, l, u, ä, ü and some punctuation), so I mapped them back by hand. A second problem was that multi-line cells broke the row order, so I rebuilt the table from character positions, using the word-type column to mark where each row starts. That produced 994 clean entries, and I spot-checked a sample against the PDF. All this to learn German. In school you just opened the book.
 
-**Making buttons feel alive.** Material 3 Expressive buttons morph from a pill to a rounded square when pressed. A naive `border-radius: 9999px` doesn't animate nicely, because nothing visible changes until the value drops below half the height. The fix was to set the radius to exactly half the button's height, so the transition is smooth from the first frame.
+**Making buttons feel alive.** Material 3 Expressive buttons morph from a pill to a rounded square when pressed. A naive `border-radius: 9999px` doesn't animate nicely, because nothing visible changes until the value drops below half the height. The fix was to set the radius to exactly half the button's height, so the transition is smooth from the first frame. I spent an embarrassing amount of time on a button.
 
 ## What I learned
 
 - **Technical:** PDFs hide structure. Look at the characters before trusting the text. Pure functions for the scheduler made it easy to test without a browser.
 - **Product:** a daily limit on new cards matters more than any clever algorithm. Without it the review pile snowballs.
-- **The bet:** with a design system ready, the first working version came together in one sitting: the colours, fonts, panels and icons were already decided, so I only had to build the app. The catch showed up later. When I switched to a different design system, the whole UI layer had to be rewritten. Keeping state, logic and styling separate meant only that layer changed and existing progress survived, but a design system saves time only if you stick with it.
-- **Different next time:** I'd decide the word source first. Starting from a frequency-ranked list would have answered "most common words" properly. I'd also pick the design system once, before writing any UI code.
+- **The bet:** with a design system ready, the first working version came together in one sitting: the colours, fonts, panels and icons were already decided, so I only had to build the app. The catch showed up later, because of course it did. When I switched to a different design system, the whole UI layer had to be rewritten. Keeping state, logic and styling separate meant only that layer changed and existing progress survived, but a design system saves time only if you stick with it.
+- **Different next time:** I'd decide the word source first. Starting from a frequency-ranked list would have answered "most common words" properly. I'd also pick the design system once, before writing any UI code. Future me, please listen. Future me never listens.
 
 ## What's next
 
