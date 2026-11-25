@@ -11,7 +11,7 @@ draft: true
 
 ## TL;DR
 
-AHAM is a home-care tracker I built for my own house: an inventory of what's in each room, and a little flowering plant for every recurring chore that droops and turns brown if you ignore it and perks back up when you tend to it. The one thing to remember is that I treated upkeep as *care*, not a to-do list, so there is no red, no "overdue", and at most one gentle notification a day.
+AHAM is a home-care tracker I built for my own house: an inventory of what's in each room, plus a little flowering plant for every recurring chore. Ignore the chore and the plant droops and turns brown. Tend to it and it perks right back up. The one thing to remember is that I treated upkeep as *care*, not a to-do list, so there's no red, no "overdue", and at most one gentle notification a day. Yes, I built a houseplant that judges me quietly instead of a to-do list that judges me loudly.
 
 ## Fact box
 
@@ -24,7 +24,7 @@ AHAM is a home-care tracker I built for my own house: an inventory of what's in 
 
 ## The itch
 
-The tools I know of treat looking after a home as work. Most to-do apps turn a descaled kettle into a task that goes red and then makes you feel behind. Most home-inventory apps are databases: they know your dishwasher's serial number and nothing about the Tuesday you last cleaned its filter. Neither feels like *looking after* a home, which, for me, is closer to a calm evening habit than a chore list. So the brief I gave myself was: make tending to things feel therapeutic.
+The tools I know of treat looking after a home as work. Most to-do apps turn a descaled kettle into a task that goes red and then makes you feel behind. Most home-inventory apps are just databases: they know your dishwasher's serial number and nothing about the Tuesday you last cleaned its filter. Neither feels like *looking after* a home, which, for me, is closer to a calm evening habit than a chore list. In my day you noticed the filter was dirty and you cleaned it. Now we need an app for that. Anyway, the brief I gave myself was: make tending to things feel therapeutic.
 
 ## What it does
 
@@ -32,7 +32,7 @@ AHAM keeps two things and connects them. The **inventory** is everything in the 
 
 ![Tapping "Tended to it": droplets fall, the plant perks up, the card turns from "Waiting for you" to "Thriving".](./images/tended-to-it.gif)
 
-The plant is the status light. How alive it looks is a function of where the ritual sits in its interval: fresh and in bloom right after you tend to it, leaves sagging as the day approaches, and once it's past its day the stem bows fully and everything dries to brown. It never dies. The worst state is "Waiting for you · 3 days".
+The plant is the status light. How alive it looks is a function of where the ritual sits in its interval: fresh and in bloom right after you tend to it, leaves sagging as the day approaches, and once it's past its day the stem bows fully and everything dries to brown. It never dies. Very forgiving. More than I am. The worst state is "Waiting for you · 3 days".
 
 ![The Today page: what needs you today, and what's coming before the week ends.](./images/today.png)
 
@@ -48,7 +48,7 @@ The plant is the status light. How alive it looks is a function of where the rit
 - **An evening reminder** at 19:00, on each device, names the rituals due tomorrow. Nothing is sent on days when nothing comes round.
 - **An agent can use it.** The same app is exposed as an MCP server, so Claude can add an item, list what's waiting or read the tended log. Everything it does is recorded as done by the agent.
 
-**What it deliberately doesn't do:** no points, streaks or scores; nothing red and no "overdue" anywhere; no nagging (one notification a day at most); no accounts or sharing beyond a single login for the household; no AI inside the app itself (the agent connects from outside).
+**What it deliberately doesn't do:** no points, streaks or scores; nothing red and no "overdue" anywhere; no nagging (one notification a day at most, because we're adults); no accounts or sharing beyond a single login for the household; no AI inside the app itself (the agent connects from outside).
 
 ## How it works
 
@@ -80,24 +80,24 @@ The plant is the status light. How alive it looks is a function of where the rit
 - **Chose an SSH-and-rsync deploy from GitHub Actions over an image registry plus Watchtower**, because it's the simplest thing that works. The trade-off is that GitHub needs SSH access and holds a deploy key; the app's own secrets stay on the server, never in GitHub.
 - **Chose web push over email or an app-store app**, accepting that on iPhone it only works from an installed Home Screen app.
 - **Chose to expose MCP before building an in-app chat**, so any MCP client works and the agent gets exactly the same validated paths as the UI.
-- **Skipped OAuth on the MCP endpoint** (for now). It means claude.ai's custom-connector screen can't connect; clients that take a header can, and I added `X-API-Key` because that screen reserves `Authorization`.
+- **Skipped OAuth on the MCP endpoint** (for now, famous last words). It means claude.ai's custom-connector screen can't connect; clients that take a header can, and I added `X-API-Key` because that screen reserves `Authorization`.
 - **Skipped accounts and multi-user.** One shared login behind Cloudflare Access is enough for one home.
 - **Skipped offline caching.** The service worker only receives the reminder; the app itself needs the server.
 
 ## What was hard
 
-**Changing a live database without losing anything.** After real data existed I shipped four changes that touched its shape: an icon per item, a plant per ritual, a permanent tended log, and shrinking the house plan from 12×8 to 5×10 (which would have pushed rooms off the edge). The rules I settled on: additive columns only, guarded by `PRAGMA table_info` so they run once; one-off backfills guarded by a flag; a safety copy of the database before anything rearranges rooms; and, most useful, **tests that build a database with the previous version of the code and start the new server on top of it**, then restart three times to prove nothing is copied twice. What failed first was my assumption that each ritual's last 30 dates were "history". They were capped and deleted with the ritual, which is what led to the permanent log.
+**Changing a live database without losing anything.** After real data existed I shipped four changes that touched its shape: an icon per item, a plant per ritual, a permanent tended log, and shrinking the house plan from 12×8 to 5×10 (which would have pushed rooms off the edge). The rules I settled on: additive columns only, guarded by `PRAGMA table_info` so they run once; one-off backfills guarded by a flag; a safety copy of the database before anything rearranges rooms; and, most useful, **tests that build a database with the previous version of the code and start the new server on top of it**, then restart three times to prove nothing is copied twice. What failed first was my assumption that each ritual's last 30 dates were "history". They were capped and deleted with the ritual, which is what led to the permanent log. Turns out history that disappears when you delete things isn't history. Who knew.
 
-**A login in front of everything breaks everything that can't log in.** The iPhone fetches a home-screen icon in a background request that carries no credentials, so behind a login the icon can't be fetched (my best explanation for why mine wouldn't show). MCP clients and calendar apps can't type a password. And my own deploy check hit the login, got a 401 and reported a perfectly healthy app as failed (a separate bug, a command swallowing the rest of the script's input, had been hiding that for a while). The fix was to stop treating "protected" as one switch: a short, explicit list of public paths (icons, manifest, health) that show nothing private, tokens for machine endpoints, and a test that prints what's reachable without a password.
+**A login in front of everything breaks everything that can't log in.** The iPhone fetches a home-screen icon in a background request that carries no credentials, so behind a login the icon can't be fetched (my best explanation for why mine wouldn't show). MCP clients and calendar apps can't type a password. And my own deploy check hit the login, got a 401 and reported a perfectly healthy app as failed (a separate bug, a command swallowing the rest of the script's input, had been hiding that for a while). Two bugs hiding behind each other. Wonderful. The fix was to stop treating "protected" as one switch: a short, explicit list of public paths (icons, manifest, health) that show nothing private, tokens for machine endpoints, and a test that prints what's reachable without a password.
 
 ## What I learned
 
 - **Test migrations against a database made by the old code, not a fresh one.** A fresh database never has the awkward state.
 - **Make the dangerous state loud.** The compose file refuses to start unless the data folder already exists, because an unmounted volume would otherwise silently create an empty database on the wrong disk.
 - **Time is the part that bites.** "19:00" means 19:00 on *each device*, across daylight saving, once a day, even through restarts. I compute it per device with `Intl` instead of storing offsets, and I check the encryption by decrypting the message back to the original text.
-- **Your test tools can lie.** Playwright's default headless browser reports notification permission as denied even after granting it, which looked exactly like my bug.
+- **Your test tools can lie.** Playwright's default headless browser reports notification permission as denied even after granting it, which looked exactly like my bug. I spent a while blaming myself for a bug that wasn't mine, which is at least a change.
 - **Wording and colour are features.** "Tended to it", "Waiting for you" and a plant that browns instead of a red badge changed how the app feels more than any layout did.
-- **Plain beat clever.** I first showed completed rituals as icon-and-plant cards on a room view. The feedback was that it should just be a big plain list: what was done, on which day, at what time. The plain list was better.
+- **Plain beat clever.** I first showed completed rituals as icon-and-plant cards on a room view. The feedback was that it should just be a big plain list: what was done, on which day, at what time. The plain list was better. I'd built a lovely thing nobody asked for. Familiar feeling.
 - **What I'd do differently:** design the log of what's been done on day one, work out which paths must be public before adding a login, and use a pull-based deploy so no SSH key sits in GitHub.
 
 ## What's next
@@ -106,8 +106,8 @@ The plant is the status light. How alive it looks is a function of where the rit
 - An in-app chat on the same tools.
 - A reminder-time picker, and an option to mention what's still waiting.
 - A pull-based deploy (image registry plus Watchtower), to retire the SSH key.
-- Finish the rename from the old name: the repo, server folder and container still say `maha`.
-- Pick the typeface (three warm, India-designed options are rendered and waiting).
+- Finish the rename from the old name: the repo, server folder and container still say `maha`. Naming things is hard. Renaming them is worse.
+- Pick the typeface (three warm, India-designed options are rendered and waiting). Choosing is not my strong suit.
 
 ## Try it
 
