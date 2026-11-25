@@ -92,9 +92,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .post { @apply prose prose-lg max-w-none; font-size: 18px; line-height: 1.7; }
 .post h1, .post h2, .post h3, .post h4 { font-family: var(--font-display); font-weight: 600; }
 .post a { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
-.post { min-width: 0; overflow-wrap: anywhere; }
+.post { min-width: 0; overflow-wrap: break-word; }
+.post code::before, .post code::after { content: none; }
 .post img, .post video, .post svg { max-width: 100%; height: auto; border-radius: var(--radius); margin: 1.5rem auto; display: block; }
 .post table { display: block; max-width: 100%; overflow-x: auto; }
+.post th, .post td { overflow-wrap: normal; word-break: normal; }
+.post td:first-child, .post th:first-child { white-space: nowrap; padding-right: 1rem; }
+.post td code, .post th code { overflow-wrap: anywhere; }
 .post pre { border-radius: var(--radius); position: relative; max-width: 100%; overflow-x: auto; }
 
 /* Code copy button (public/js/copy.js) */
