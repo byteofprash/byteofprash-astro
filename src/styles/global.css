@@ -46,6 +46,23 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .page { max-width: var(--page-max); margin: 0 auto; padding: var(--page-pad); display: flex; flex-direction: column; gap: var(--gap); min-height: 100vh; }
 .page > main { flex: 1; }
 
+/* Hero name: "Prash" -> "byteofprash" on hover */
+.name-hover { --name-size: 128px; height: var(--name-size); width: fit-content; max-width: 100%; display: flex; align-items: flex-end; }
+.name-h1 { font-size: var(--name-size); white-space: nowrap; display: inline-flex; }
+.name-pre { display: inline-block; max-width: 0; overflow: hidden; opacity: 0; }
+.name-low { display: none; }
+@media (hover: hover) {
+  .name-h1 { transition: font-size .35s ease; }
+  .name-pre { transition: max-width .35s ease, opacity .35s ease; }
+  .name-hover:hover .name-h1 { font-size: min(76px, 12vw); }
+  .name-hover:hover .name-pre { max-width: 4em; opacity: 1; }
+  .name-hover:hover .name-cap { display: none; }
+  .name-hover:hover .name-low { display: inline; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .name-h1, .name-pre { transition: none !important; }
+}
+
 /* Home bento placement */
 .c-name { grid-column: 1 / 3; grid-row: 1; }
 .c-photo { grid-column: 3; grid-row: 1 / 3; }
@@ -58,7 +75,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 @media (max-width: 900px) {
   .c-photo { min-height: 420px !important; }
   .c-tan { min-height: 480px !important; }
-  .c-name h1 { font-size: clamp(72px, 18vw, 128px) !important; }
+  .name-hover { --name-size: clamp(72px, 18vw, 128px); }
   .bento { display: flex; flex-direction: column; }
   .c-name { order: 1; } .c-photo { order: 2; } .c-story { order: 3; } .c-proj { order: 4; }
   .c-write { order: 5; } .c-contact { order: 6; } .c-term { order: 7; } .c-tan { order: 8; }
