@@ -6,7 +6,7 @@ category: "Side project"
 tags: ["Chrome extension", "Manifest V3", "Canvas"]
 demoUrl: "https://ey430-meetlo-picasso.byteofprash.com"
 repoUrl: ""
-draft: true
+draft: false
 ---
 
 ## TL;DR
