@@ -5,8 +5,8 @@ date: "Nov 25, 2026"
 category: "Side project"
 tags: ["spaced repetition", "pwa", "german", "material 3"]
 demoUrl: ""
-repoUrl: "https://github.com/byteofprash/twain"
-draft: true
+repoUrl: ""
+draft: false
 ---
 
 ## TL;DR
@@ -17,18 +17,16 @@ Twain started as a bar bet that an app is easy to build once you have a design s
 
 | | |
 |---|---|
-| **Status** | Built and pushed to `master`; deploys to Vercel on push, and a Docker + Traefik setup for my Hetzner server is documented |
+| **Status** | Built; deploys to Vercel on every push, with a Docker + Traefik setup for my Hetzner server documented |
 | **Role** | Everything: product, design, code, logo (built with Claude Code) |
 | **Stack** | Vanilla JS, CSS, no build step · Web Speech API · `localStorage` · nginx in Docker · Cloudflare Tunnel + Traefik · Vercel |
-| **Timeline** | About two weeks, Nov 2026, in evening sessions |
+| **Timeline** | About two weeks, Nov 2026 |
 
 ## The itch
 
 It started as a bar bet. I told Vishvesh that if you already have a design system ready, building an app these days is super easy. He took the other side, so we made it a bet.
 
 I had the design system: the 8-bit pixel-art look from my travel app. All I needed was something to build with it. I also had a B1 German word list as a PDF, about a thousand words with a translation, an example sentence and the article for each noun. A PDF is good for reading and bad for remembering, so a flashcard app that quizzes me on it was the obvious test case.
-
-<!-- Add how the bet ended, if you want to: who paid, and what Vishvesh said when he saw it. -->
 
 ## What it does
 
@@ -85,5 +83,4 @@ It is a static site. There is nothing to run besides a file server.
 
 ## Try it
 
-- Demo: _add the Vercel URL once confirmed_ (the Hetzner copy sits behind Cloudflare Access, so it is private)
-- Source: [github.com/byteofprash/twain](https://github.com/byteofprash/twain) (currently a private repository)
+Twain is private for now: there is no public demo or repository yet. If you'd like to see it, ask me.
