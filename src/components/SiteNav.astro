@@ -17,7 +17,9 @@ const first = "/" + (pathname.match(/[^/]+/g)?.[0] ?? "")
   </nav>
 ) : (
   <header class="tile tile-paper flex flex-wrap items-center justify-between gap-x-8 gap-y-3 !py-5 !px-8">
-    <a href="/" class="display text-[26px] font-semibold tracking-tight">Prash</a>
+    <a href="/" class="name-link display text-[26px] font-semibold tracking-tight" aria-label="Prash, home">
+      <span class="name-pre" aria-hidden="true">byteof</span><span aria-hidden="true"><span class="name-cap">P</span><span class="name-low">p</span>rash</span>
+    </a>
     <nav aria-label="Main" class="flex flex-wrap gap-x-6 gap-y-2 text-[17px]">
       {LINKS.map((l) => (
         <a

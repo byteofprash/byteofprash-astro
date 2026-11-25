@@ -59,6 +59,13 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .name-hover:hover .name-cap { display: none; }
   .name-hover:hover .name-low { display: inline; }
 }
+/* Same effect on the header home link (inner pages) */
+.name-link { display: inline-flex; white-space: nowrap; }
+@media (hover: hover) {
+  .name-link:hover .name-pre, .name-link:focus-visible .name-pre { max-width: 4em; opacity: 1; }
+  .name-link:hover .name-cap, .name-link:focus-visible .name-cap { display: none; }
+  .name-link:hover .name-low, .name-link:focus-visible .name-low { display: inline; }
+}
 @media (prefers-reduced-motion: reduce) {
   .name-h1, .name-pre { transition: none !important; }
 }
