@@ -11,7 +11,7 @@ draft: true
 
 ## TL;DR
 
-Twain is a flashcard app that drills the 994 words of a German B1 word list: you see a word, hear it, flip, rate how well you knew it, and a spaced-repetition scheduler decides when it comes back. It is a static site with no backend or API key, so the one thing to remember is that everything (scheduling, audio, progress) lives in the browser.
+Twain started as a bar bet that an app is easy to build once you have a design system. It is a flashcard app that drills the 994 words of a German B1 word list: you see a word, hear it, flip, rate how well you knew it, and a spaced-repetition scheduler decides when it comes back. It is a static site with no backend or API key, so the one thing to remember is that everything (scheduling, audio, progress) lives in the browser.
 
 ## Fact box
 
@@ -24,11 +24,11 @@ Twain is a flashcard app that drills the 994 words of a German B1 word list: you
 
 ## The itch
 
-<!-- Replace this paragraph with the real moment that made you start (the exam, the apartment paperwork, the word you kept forgetting). What I can say from the project itself: -->
+It started as a bar bet. I told Vishvesh that if you already have a design system ready, building an app these days is super easy. He took the other side, so we made it a bet.
 
-I had a B1 word list as a PDF: about a thousand words with a translation, an example sentence and the article for each noun. A PDF is good for reading and bad for remembering. I wanted to be quizzed on it daily, hear the words, and have the hard ones come back more often than the easy ones.
+I had the design system: the 8-bit pixel-art look from my travel app. All I needed was something to build with it. I also had a B1 German word list as a PDF, about a thousand words with a translation, an example sentence and the article for each noun. A PDF is good for reading and bad for remembering, so a flashcard app that quizzes me on it was the obvious test case.
 
-Existing options didn't fit. Anki can do this, but I'd have to convert the PDF into a deck, and I wanted something that opens in one tap from my phone and looks like my other projects. My earlier attempt, a small AI dictionary, answered "what does this word mean" but never made me practise it.
+<!-- Add how the bet ended, if you want to: who paid, and what Vishvesh said when he saw it. -->
 
 ## What it does
 
@@ -72,8 +72,8 @@ It is a static site. There is nothing to run besides a file server.
 
 - **Technical:** PDFs hide structure. Look at the characters before trusting the text. Pure functions for the scheduler made it easy to test without a browser.
 - **Product:** a daily limit on new cards matters more than any clever algorithm. Without it the review pile snowballs.
-- **Process:** I changed the whole visual design after the app already worked. Keeping state, logic and styling separate made that a rewrite of the UI layer only, and existing progress survived.
-- **Different next time:** I'd decide the word source first. Starting from a frequency-ranked list would have answered "most common words" properly.
+- **The bet:** with a design system ready, the first working version came together in one sitting: the colours, fonts, panels and icons were already decided, so I only had to build the app. The catch showed up later. When I switched to a different design system, the whole UI layer had to be rewritten. Keeping state, logic and styling separate meant only that layer changed and existing progress survived, but a design system saves time only if you stick with it.
+- **Different next time:** I'd decide the word source first. Starting from a frequency-ranked list would have answered "most common words" properly. I'd also pick the design system once, before writing any UI code.
 
 ## What's next
 
