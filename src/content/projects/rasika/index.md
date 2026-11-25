@@ -4,9 +4,9 @@ summary: "A Carnatic music learning app for mobile — structured lessons, swara
 date: "Jan 01, 2026"
 category: "Side project"
 tags: ["music", "iOS", "Vue", "Capacitor"]
-demoUrl: ""
+demoUrl: "https://rasika.app"
 repoUrl: ""
-draft: true
+draft: false
 ---
 
 ## TL;DR
@@ -92,6 +92,5 @@ Supabase PostgreSQL
 
 ## Try it
 
-- **App Store:** <!-- TODO(prash): add the App Store link -->
-- **Android waitlist:** <!-- TODO(prash): add the waitlist link -->
+- **Download (App Store + Android waitlist):** [rasika.app](https://rasika.app)
 - **Source:** private for now
