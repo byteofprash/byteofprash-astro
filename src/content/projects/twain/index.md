@@ -32,11 +32,11 @@ Existing options didn't fit. Anki can do this, but I'd have to convert the PDF i
 
 ## What it does
 
-![Home screen: today's progress ring, streak, a Mark Twain quote and vocabulary progress](images/home.png)
+![Home screen: today's progress ring, streak, a Mark Twain quote and vocabulary progress](./images/home.png)
 
 Every day it hands you a short session: due reviews first, then up to 15 new words (configurable). Each card plays the German aloud, you flip it, and you press Again, Hard, Good or Easy. The buttons show when you'll next see the card. Cards you miss come back later in the same session.
 
-![A flashcard answer with the article, translation, example sentence and rating buttons](images/card.png)
+![A flashcard answer with the article, translation, example sentence and rating buttons](./images/card.png)
 
 It also has a searchable word list with filters, three card styles (German to English, English to German, and listening-only), light and dark themes, and a backup you can export and import. The logo is a caricature of Mark Twain, who wrote *The Awful German Language*, and the app quotes him.
 
