@@ -5,7 +5,7 @@ date: "Nov 25, 2026"
 category: "Side project"
 tags: ["Next.js", "Claude API", "PWA", "Redis"]
 demoUrl: ""
-repoUrl: "https://github.com/byteofprash/travelmate"
+repoUrl: ""
 draft: true
 ---
 
@@ -95,5 +95,10 @@ phone / laptop (PWA)                    server (Docker, Hetzner)              se
 
 ## Try it
 
-- **Demo:** none public. It's locked behind an access code because every request spends my Anthropic credits.
-- **Source:** [github.com/byteofprash/travelmate](https://github.com/byteofprash/travelmate)
+It's private: it's locked behind an access code because every request spends my Anthropic credits, and the source stays private too. Here is the app in use.
+
+![The Trips screen with each trip as a card](images/trips.png)
+
+![The trip overview with the Flights and Stays tiles](images/trip.png)
+
+![Today, with the day strip, theme and stats](images/today.png)
