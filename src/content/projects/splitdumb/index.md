@@ -32,15 +32,15 @@ I wanted a bill splitter for trips that works the way a trip actually goes: one 
 
 Create a trip, add the people, and log expenses. Each expense is recorded in the currency it was really paid in, with who paid (one person or several) and how it's split: equally, by exact amounts, by percentage, or by shares.
 
-![The trip screen: total spent, tabs for Expenses, Balances and People, and each expense with its own currency and an approximate value in mine](images/expenses.png)
+![The trip screen: total spent, tabs for Expenses, Balances and People, and each expense with its own currency and an approximate value in mine](./images/expenses.png)
 
 Every phone picks its own currency in a first-run popup. Totals and "≈" amounts are shown in it, so two friends can open the same trip and each see their own money. Friends join through an invite link, and changes show up on everyone's phone within a few seconds. It keeps working offline and syncs when the connection comes back.
 
-![Adding an expense in yen, with an approximate value in my own currency under the amount and the split options below](images/add-expense.png)
+![Adding an expense in yen, with an approximate value in my own currency under the amount and the split options below](./images/add-expense.png)
 
 Balances are listed per currency, for information. **Settle up** sits at the top, in your own currency: one short list of who pays whom for the whole trip, with a Record button on each. It also has a "Simplify debts" switch like Splitwise's, and a CSV export for the spreadsheet people.
 
-![Settle up in my currency: a tree of who pays whom, with the amount and a Record button on each branch](images/settle-up.png)
+![Settle up in my currency: a tree of who pays whom, with the amount and a Record button on each branch](./images/settle-up.png)
 
 **What it deliberately doesn't do:** no accounts or passwords (the invite link is the access), no receipts or photos, no categories, no push notifications, and no live exchange-rate locking beyond the moment a payment is recorded.
 
