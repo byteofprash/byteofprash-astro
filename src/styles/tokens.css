@@ -57,8 +57,8 @@ a.tile:hover { transform: translateY(-3px); }
   .bento > * { grid-column: 1 / -1 !important; grid-row: auto !important; min-height: 260px; }
 }
 
-/* Kolam border: kolam.webp tiled in a 28px strip. Transparent maroon motif. */
+/* Kolam border: kolam.webp tiled in a 21px strip (cropped to the motif, 0.75x, tight spacing). Transparent maroon motif. */
 .kolam-border {
-  height: 28px;
-  background: url('/assets/kolam.webp') repeat-x center / 34px 34px;
+  height: 21px;
+  background: url('/assets/kolam-strip.webp') repeat-x left center / 21px 21px;
 }
