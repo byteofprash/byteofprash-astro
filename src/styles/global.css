@@ -95,6 +95,7 @@ a:focus-visible, button:focus-visible, input:focus-visible {
 .post { min-width: 0; overflow-wrap: break-word; }
 .post code::before, .post code::after { content: none; }
 .post img, .post video, .post svg { max-width: 100%; height: auto; border-radius: var(--radius); margin: 1.5rem auto; display: block; }
+.post img, .post video { width: auto; max-height: min(420px, 65vh); object-fit: contain; }
 .post table { display: block; max-width: 100%; overflow-x: auto; }
 .post th, .post td { overflow-wrap: normal; word-break: normal; }
 .post td:first-child, .post th:first-child { white-space: nowrap; padding-right: 1rem; }
